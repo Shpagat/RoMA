@@ -1,4 +1,4 @@
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 import time
 GPIO_PWM_0 = 12
 FREQUENCY = 100
