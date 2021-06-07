@@ -1,5 +1,6 @@
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 import time
+import cv2 # импорт модуля  из библиотеки Opencv
 
 def sphi_sensor():
     sphi_pin = 23
@@ -77,3 +78,31 @@ def ultrasonic_sensor():
 				print("Warning!")
 	except KeyboardInterrupt:
 		GPIO.cleanup()
+
+def qr_detector():
+
+    # настройка и включение камеры 
+    cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
+
+    # создание объекта детектора. В Opencv имеется  встроенный метод детектор QR
+    detector = cv2.QRCodeDetector()
+
+    # нахождение и декодирование нашего кода
+    while True:
+        # получить изображение
+        _, img = cap.read()
+
+        # извлечь местоположение штрих-кода и зашифрованную информацию
+        data, _, _ = detector.detectAndDecode(img)
+        key = data
+
+        # возвращаем расшифрованное значение
+        if data:
+            # закрываем видеопоток, освобождаем память
+            cap.release()
+            cv2.destroyAllWindows()
+
+            return key
+
+# печатаем значение в консоли
+print(qr_detector())
