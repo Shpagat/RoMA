@@ -1,4 +1,4 @@
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import time
 GPIO_PWM_0 = 12
 FREQUENCY = 100
@@ -11,7 +11,7 @@ try:
     while True:
         for dutyCycle in range(0, 101, 1):
             pwmOutput_0.ChangeDutyCycle(dutyCycle) 
-            sleep(DELAY_TIME)
+            time.sleep(DELAY_TIME)
 except KeyboardInterrupt:
     pwmOutput_0.stop()
     GPIO.cleanup()
