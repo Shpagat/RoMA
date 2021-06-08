@@ -107,5 +107,7 @@ def qr_detector():
             cv2.destroyAllWindows()
 
             return key
+
+
 # печатаем значение в консоли
 print(qr_detector())
