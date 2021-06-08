@@ -93,6 +93,7 @@ def qr_detector():
 
     # нахождение и декодирование нашего кода
     while True:
+<<<<<<< HEAD
         for dutyCycle in range(0, 101, 1):
             pwmOutput_0.ChangeDutyCycle(dutyCycle)
             time.sleep(DELAY_TIME)
@@ -100,3 +101,23 @@ def qr_detector():
     pwmOutput_0.stop()
     GPIO.cleanup()
     print('exiting')
+=======
+        # получить изображение
+        _, img = cap.read()
+
+        # извлечь местоположение штрих-кода и зашифрованную информацию
+        data, _, _ = detector.detectAndDecode(img)
+        key = data
+
+        # возвращаем расшифрованное значение
+        if data:
+            # закрываем видеопоток, освобождаем память
+            cap.release()
+            cv2.destroyAllWindows()
+
+            return key
+
+
+# печатаем значение в консоли
+print(qr_detector())
+>>>>>>> d871baf733f8898117a82c85ec6db405bb4bfefb
