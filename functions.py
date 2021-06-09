@@ -83,31 +83,41 @@ def ultrasonic_sensor():
         GPIO.cleanup()
 
 
-def qr_detector():
+def qr_detector():  # функция расшифровки qr-кода
 
-    # настройка и включение камеры
-    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    # создание словаря
+    key_to_multiplier = {
+        '376d737b2b2341b79cc4100fe1a32202': 1,
+        '93017d1beaa441149b6551d8b8759f0b': 2,
+        'ae6248d62ca44bd3aa88430e64535a4d': 3,
+        '06486108a588442587d746dc3515e4b6': 4,
+        '9194c8e8673a4c32a0b4699d8718d5d3': 5
+    }
+
+    print(key_to_multiplier["ae6248d62ca44bd3aa88430e64535a4d"])
+
+    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)  # настройка и включение камеры
 
     # создание объекта детектора. В Opencv имеется  встроенный метод детектор QR
     detector = cv2.QRCodeDetector()
 
     # нахождение и декодирование нашего кода
     while True:
-        # получить изображение
-        _, img = cap.read()
+
+        _, img = cap.read()  # получить изображение
 
         # извлечь местоположение штрих-кода и зашифрованную информацию
         data, _, _ = detector.detectAndDecode(img)
         key = data
 
         # возвращаем расшифрованное значение
-        if data:
+        if key in key_to_multiplier:
+
             # закрываем видеопоток, освобождаем память
             cap.release()
             cv2.destroyAllWindows()
 
-            return key
-
+            return key_to_multiplier[key]
 
 # печатаем значение в консоли
-print(qr_detector())
+# print(qr_detector())
