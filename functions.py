@@ -1,10 +1,10 @@
+from pi74HC595 import pi74HC595
 import RPi.GPIO as GPIO
 import time
 import cv2  # импорт модуля  из библиотеки Opencv
 
 
-def sphi_sensor():
-    sphi_pin = 23
+def sphi_sensor(sphi_pin):
 
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(sphi_pin, GPIO.IN)
@@ -17,16 +17,15 @@ def sphi_sensor():
             else:
                 # световой поток прерван
                 sphi = 1
-                print(sphi)
-                break
-            print(sphi)
-            time.sleep(1)
+                return(sphi)
+                #break
+            return(sphi)
+            #time.sleep(1)
     except KeyboardInterrupt:
         GPIO.cleanup()
 
 
-def ir_sensor():
-    ir_pin = 23
+def ir_sensor(ir_pin):
 
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(ir_pin, GPIO.IN)
@@ -36,13 +35,11 @@ def ir_sensor():
             # если препятствие обнаружено
             if GPIO.input(ir_pin) == 0:
                 ir = 1
-                print(ir)
-                break
+                return(ir)
             # если препятствие не обнаружено
             elif GPIO.input(ir_pin) == 1:
                 ir = 0
-            print(ir)
-            time.sleep(1)
+            return(ir)
     except KeyboardInterrupt:
         GPIO.cleanup()
 
@@ -83,20 +80,30 @@ def ultrasonic_sensor():
         GPIO.cleanup()
 
 
+def shift(adress):
+
+    GPIO.setmode(GPIO.BOARD)
+    shift_register = pi74HC595()
+    shift_register.set_by_list(
+        [adress[1], adress[2], adress[3], adress[4],
+            adress[5], adress[6], adress[7], adress[8]]
+    )
+    time.sleep(1)
+    shift_register.clear()
+
+
 def qr_detector():  # функция расшифровки qr-кода
 
     # создание словаря
     key_to_multiplier = {
-        '376d737b2b2341b79cc4100fe1a32202': 1,
-        '93017d1beaa441149b6551d8b8759f0b': 2,
-        'ae6248d62ca44bd3aa88430e64535a4d': 3,
-        '06486108a588442587d746dc3515e4b6': 4,
-        '9194c8e8673a4c32a0b4699d8718d5d3': 5
+        '376d737b2b2341b79cc4100fe1a32202': 101010101,
+        '93017d1beaa441149b6551d8b8759f0b': 101010101,
+        'ae6248d62ca44bd3aa88430e64535a4d': 101010101,
+        '06486108a588442587d746dc3515e4b6': 101010101,
+        '9194c8e8673a4c32a0b4699d8718d5d3': 101010101
     }
 
-    print(key_to_multiplier["ae6248d62ca44bd3aa88430e64535a4d"])
-
-    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)  # настройка и включение камеры
+    cap = cv2.VideoCapture(0)  # настройка и включение камеры
 
     # создание объекта детектора. В Opencv имеется  встроенный метод детектор QR
     detector = cv2.QRCodeDetector()
