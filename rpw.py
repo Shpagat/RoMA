@@ -1,24 +1,25 @@
+
 # подключение библиотеки для работы с контактами ввода/вывода
 import RPi.GPIO as IO
 import time                      # подключение библиотеки для работы с задержками
 IO.setwarnings(False)            # отключаем показ любых предупреждений
 # мы будем программировать контакты GPIO по их функциональным номерам (BCM), то есть мы будем обращаться к PIN35 как ‘GPIO19’
 IO.setmode(IO.BCM)
-# инициализируем GPIO19 в качестве цифрового выхода
-IO.setup(19, IO.OUT)
-# настраиваем GPIO19 в качестве ШИМ выхода с частотой ШИМ сигнала 100 Гц
-p = IO.PWM(19, 100)
-# начинаем формирование ШИМ сигнала с коэффициентом заполнения 0%
-p.start(0)
-while 1:                         # бесконечный цикл
-    # исполняем цикл 50 раз, x инкрементируется от 0 до 49.
-    for x in range(50):
-        # изменяем коэффициент заполнения ШИМ чтобы изменить яркость свечения светодиода
-        p.ChangeDutyCycle(x)
-        time.sleep(0.1)          # задержка на 100 мс
-
-    # исполняем цикл 50 раз, x инкрементируется от 0 до 49.
-    for x in range(50):
-        # изменяем коэффициент заполнения ШИМ чтобы изменить яркость свечения светодиода
-        p.ChangeDutyCycle(50-x)
-        time.sleep(0.1)
+import RPi.GPIO as GPIO
+import time
+GPIO_PWM_0 = 19
+FREQUENCY = 100
+DELAY_TIME = 0.02
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(GPIO_PWM_0, GPIO.OUT)
+pwmOutput_0 = GPIO.PWM(GPIO_PWM_0, FREQUENCY)
+pwmOutput_0.start(0)
+try:
+    while True:
+        for dutyCycle in range(0, 101, 1):
+            pwmOutput_0.ChangeDutyCycle(dutyCycle) 
+            time.sleep(DELAY_TIME)
+except KeyboardInterrupt:
+    pwmOutput_0.stop()
+    GPIO.cleanup()
+    print('exiting')
