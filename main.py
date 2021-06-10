@@ -26,7 +26,7 @@ while KeyboardInterrupt():
             if functions.ir_sensor(ir_pin) == 1:  # ожидание датчика
                 functions.shift(str(adress[key]))  # открытие ячейки
                 print(key)
-                del adress[key] #удаление элемента из списка
+                del adress[key]  # удаление элемента из списка
                 print(str(key[0:]))
                 counter += 1
         else:
