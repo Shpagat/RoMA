@@ -10,31 +10,31 @@ counter = 1
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(motor, GPIO.OUT)
 
-# создание словаря
-adress = {
-    '100000001': 100000001,
-    '100000010': 100000010,
-    '100000100': 100000100,
-    '100001000': 100001000,
-    '100010000': 100010000
-}
 
 while KeyboardInterrupt():
-    # запуск сканирования qr-кода
-    key = (functions.qr_detector)
-    if key in adress:
-        print (adress[key])
-        while counter <= 5:
+    # создание словаря
+    adress = {
+        '100000001': 100000001,
+        '100000010': 100000010,
+        '100000100': 100000100,
+        '100001000': 100001000,
+        '100010000': 100010000
+    }
+    while counter <= 5:
+        key = str(functions.qr_detector())  # запуск сканирования qr-кода
+        if key in adress:
             if functions.ir_sensor(ir_pin) == 1:  # ожидание датчика
-                functions.shift(adress)  # открытие ячейки
-                print (key)
+                functions.shift(str(adress[key]))  # открытие ячейки
+                print(key)
+                del adress[key] #удаление элемента из списка
+                print(str(key[0:]))
                 counter += 1
-            else:
-                print('Not found id')
+        else:
+            print('Not found id')
 
     while functions.sphi_sensor(sphi_pin) == 0:   # закрытие ячеек
         GPIO.output(motor, 1)
     GPIO.output(motor, 0)
+    GPIO.cleanup()
 
 print('programm completed')
-GPIO.cleanup()

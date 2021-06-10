@@ -18,9 +18,9 @@ def sphi_sensor(sphi_pin):
                 # световой поток прерван
                 sphi = 1
                 return(sphi)
-                #break
+                # break
             return(sphi)
-            #time.sleep(1)
+            # time.sleep(1)
     except KeyboardInterrupt:
         GPIO.cleanup()
 
@@ -81,13 +81,9 @@ def ultrasonic_sensor():
 
 
 def shift(adress):
-
     GPIO.setmode(GPIO.BOARD)
     shift_register = pi74HC595()
-    shift_register.set_by_list(
-        [adress[1], adress[2], adress[3], adress[4],
-            adress[5], adress[6], adress[7], adress[8]]
-    )
+    shift_register.set_by_list([adress[0:]])
     time.sleep(1)
     shift_register.clear()
 
@@ -125,6 +121,3 @@ def qr_detector():  # функция расшифровки qr-кода
             cv2.destroyAllWindows()
 
             return key_to_multiplier[key]
-
-# печатаем значение в консоли
-# print(qr_detector())
