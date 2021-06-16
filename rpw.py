@@ -6,9 +6,9 @@ import time                      # подключение библиотеки �
 
 def pwm():
 
-    FREQUENCY = 100
-    DELAY_TIME = 0.02
-    GPIO_PWM_0 = 19
+    FREQUENCY = 100 #частота сигнала
+    DELAY_TIME = 0.02 #время для паузы
+    GPIO_PWM_0 = 19 
     GPIO.setup(GPIO_PWM_0, GPIO.OUT)
     GPIO.setwarnings(False)            # отключаем показ любых предупреждений
     GPIO.setmode(GPIO.BCM)
