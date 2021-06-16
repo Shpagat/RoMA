@@ -83,7 +83,7 @@ def ultrasonic_sensor():
 def shift(address):
     GPIO.setmode(GPIO.BCM)
     shift_register = pi74HC595()
-    shift_register.set_by_list([adress[0:]])
+    shift_register.set_by_list([address[0:]])
     time.sleep(1)
     shift_register.clear()
 

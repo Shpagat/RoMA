@@ -3,7 +3,7 @@ import RPi.GPIO as gpio
 
 class pi74HC595:
     def __init__(
-        self, DS: int = 11, ST: int = 13, SH: int = 15, daisy_chain: int = 1,
+        self, DS: int = 9, ST: int = 11, SH: int = 8, daisy_chain: int = 1,
     ):
 
         if not (isinstance(DS, int) or isinstance(ST, int) or isinstance(SH, int)):

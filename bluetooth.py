@@ -1,13 +1,14 @@
 import RPi.GPIO as GPIO
 import time
+import main
 from bluedot import BlueDot
 from signal import pause
-from gpiozero import Robot
+#from gpiozero import Robot
 
-pwm_0 = 12  #
-pwm_1 = 13  #
-backward_pin0 = 11 
-backward_pin1 = 15
+pwm_0 = 17  #
+pwm_1 = 10  #
+backward_pin0 = 27 
+backward_pin1 = 9
 frequency = 10  #частота сигнала 10 Гц
 duty_cycle = 50  # коэффициент заполнения 50%
 delay = 0.2 # время паузы 0.2 сек
@@ -88,12 +89,13 @@ bd[0, 0].visible = False
 bd[2, 0].visible = False
 bd[0, 2].visible = False
 bd[2, 2].visible = False
-bd[1, 1].visible = False
+#bd[1, 1].visible = False
 
 bd[1, 0].when_pressed = forward # тут функция вызывается
 bd[1, 2].when_pressed = backward
 bd[0, 1].when_pressed = left
 bd[2, 1].when_pressed = right
+bd[1, 1].when_pressed = main.qr()
 
 bd[1, 0].when_released = stop
 bd[1, 2].when_released = stop
