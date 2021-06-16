@@ -15,6 +15,7 @@ delay = 0.2 # время паузы 0.2 сек
 GPIO.setmode(GPIO.BCM)
 GPIO.setup (pwm_0, GPIO.OUT)
 GPIO.setup (pwm_1, GPIO.OUT)
+GPIO.setwarnings(False)
 GPIO.setup (backward_pin0, GPIO.OUT)
 GPIO.setup (backward_pin1, GPIO.OUT)
 pwmOutput_0 = GPIO.PWM (pwm_0, frequency)
@@ -29,8 +30,8 @@ def forward():
     pwmOutput_0.stop(duty_cycle)
     pwmOutput_1.stop(duty_cycle)
     print("button forward pressed")
-    GPIO.cleanup() 
-
+    #GPIO.cleanup() 
+    return
 
 def backward():
     
@@ -42,8 +43,8 @@ def backward():
     pwmOutput_0.stop(duty_cycle)
     pwmOutput_1.stop(duty_cycle)
     print("button backward pressed")
-    GPIO.cleanup() 
-
+    #GPIO.cleanup() 
+    return
 
 def left():
     
@@ -53,7 +54,8 @@ def left():
     pwmOutput_0.stop(duty_cycle)
     pwmOutput_1.stop(duty_cycle)
     print("button left pressed")
-    GPIO.cleanup() 
+    #GPIO.cleanup()
+    return
     
 def right():
     
@@ -63,7 +65,8 @@ def right():
     pwmOutput_0.stop(duty_cycle)
     pwmOutput_1.stop(duty_cycle)
     print("button right pressed")
-    GPIO.cleanup() 
+    #GPIO.cleanup()
+    return
 # и скорее всего нужно будет дggitобавить функцию стоп, когда отпускаешь кнопку bd[1, 0].when_released = robot.stop, также использовалось с robot
 
 
@@ -87,14 +90,14 @@ bd[0, 2].visible = False
 bd[2, 2].visible = False
 bd[1, 1].visible = False
 
-bd[1, 0].when_pressed = forward()  # тут функция вызывается
-bd[1, 2].when_pressed = backward()
-bd[0, 1].when_pressed = left()
-bd[2, 1].when_pressed = right()
+bd[1, 0].when_pressed = forward # тут функция вызывается
+bd[1, 2].when_pressed = backward
+bd[0, 1].when_pressed = left
+bd[2, 1].when_pressed = right
 
-bd[1, 0].when_released = stop()
-bd[1, 2].when_released = stop()
-bd[0, 1].when_released = stop()
-bd[2, 1].when_released = stop()
+bd[1, 0].when_released = stop
+bd[1, 2].when_released = stop
+bd[0, 1].when_released = stop
+bd[2, 1].when_released = stop
 
 pause()
