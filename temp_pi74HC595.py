@@ -1,9 +1,10 @@
+from rpw0 import DS, SH, ST
 import RPi.GPIO as gpio
 
 
 class pi74HC595:
     def __init__(
-        self, DS: int = 9, ST: int = 11, SH: int = 8, daisy_chain: int = 1,
+        self, DS: int = 19, ST: int = 26, SH: int = 20, daisy_chain: int = 1,
     ):
 
         if not (isinstance(DS, int) or isinstance(ST, int) or isinstance(SH, int)):
@@ -77,7 +78,7 @@ class pi74HC595:
         elif pin < 1 or pin > 40:
             raise ValueError("Argument must be within pin range")
 
-        self.parallel = DS
+        self.parallel = SH
 
     def set_st(self, pin: int):
         """
