@@ -12,28 +12,26 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
 
-
 counter = 1
 while KeyboardInterrupt():
     # создание словаря
     address = {
-        '100000001': 100100000,
-        '100000010': 100010000,
-        '100000100': 100001000,
-        '100001000': 100000100,
-        '100010000': 100000010
+        '100000001': [0, 0, 1, 0, 0, 0, 0, 0],
+        '100000010': [0, 0, 0, 1, 0, 0, 0, 0],
+        '100000100': [0, 0, 0, 0, 1, 0, 0, 0],
+        '100001000': [0, 0, 0, 0, 0, 1, 0, 0],
+        '100010000': [0, 0, 0, 0, 0, 0, 1, 0]
     }
     while counter <= 5:
-        
-        key = str(functions.qr_detector())  # запуск сканирования qr-кода
-        print (key)
-        if key in address:
-            print (key)
 
+        key = functions.qr_detector()  # запуск сканирования qr-кода
+        print(key)
+        print(address[key])
+        if key in address:
             if functions.ir_sensor(ir_pin) == 1:  # ожидание датчика
                 #address = (str(address[key])[1:])
                 address = address[key]
-                print (address)
+                print(address)
                 functions.shift(address)  # открытие ячейки
                 print(key)
                 del address[key]  # удаление элемента из списка
@@ -45,4 +43,3 @@ while KeyboardInterrupt():
         functions.motor(motor)
 GPIO.cleanup()
 print('programm completed')
-
