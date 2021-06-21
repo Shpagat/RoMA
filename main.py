@@ -9,6 +9,7 @@ motor = 0b01000000
 counter = 1
 
 GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 
 
 
@@ -30,8 +31,8 @@ while KeyboardInterrupt():
             print (key)
 
             if functions.ir_sensor(ir_pin) == 1:  # ожидание датчика
-                address = (str(address[key])[1:])
-                address = list(address)
+                #address = (str(address[key])[1:])
+                address = address[key]
                 print (address)
                 functions.shift(address)  # открытие ячейки
                 print(key)
